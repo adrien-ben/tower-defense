@@ -4,8 +4,6 @@ import com.adrien.games.application.GameApplication;
 import com.adrien.games.application.GameSettings;
 import com.adrien.games.application.Input;
 import com.adrien.games.application.Timer;
-import com.adrien.games.math.Vector2;
-import com.adrien.games.towerdefense.animation.Path;
 
 import java.awt.*;
 
