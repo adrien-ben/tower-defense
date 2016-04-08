@@ -60,6 +60,10 @@ public class Path {
         position = checkPoints.pollFirst();
     }
 
+    public Deque<Vector2> getCheckPoints() {
+        return checkPoints;
+    }
+
     public Vector2 getPosition() {
         return position;
     }
