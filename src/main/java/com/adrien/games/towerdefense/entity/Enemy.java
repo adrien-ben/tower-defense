@@ -12,17 +12,20 @@ public class Enemy implements Entity {
 
     private Vector2 position;
     private double speed;
-    private Path path;
+    private final Path path;
 
-    public Enemy(Vector2 position, double speed) {
+    public Enemy(Vector2 position, double speed, Path path) {
         this.position = Assert.isNotNull(position, "Position cannot be null.");
         this.speed = speed;
-        this.path = null;
+        this.path = Assert.isNotNull(path, "Path cannot be null.");
     }
 
     @Override
     public void update(Timer timer) {
-
+        if(!path.isEndReached()) {
+            path.update(speed, (double)timer.gelElapsedTime()/Timer.MS_IN_ONE_S);
+            position = path.getPosition();
+        }
     }
 
     public Vector2 getPosition() {
@@ -39,10 +42,6 @@ public class Enemy implements Entity {
 
     public Path getPath() {
         return path;
-    }
-
-    public void setPath(Path path) {
-        this.path = path;
     }
 
 }
