@@ -10,11 +10,13 @@ import com.adrien.games.utils.Assert;
  */
 public class Enemy extends Entity {
 
+    private int health;
     private double speed;
     private final Path path;
 
-    public Enemy(Vector2 position, double speed, Path path) {
+    public Enemy(Vector2 position, int health, double speed, Path path) {
         super(position);
+        this.health = health;
         this.speed = speed;
         this.path = Assert.isNotNull(path, "Path cannot be null.");
     }
@@ -25,6 +27,11 @@ public class Enemy extends Entity {
             path.update(speed, (double)timer.gelElapsedTime()/Timer.MS_IN_ONE_S);
             position = path.getPosition();
         }
+    }
+
+    public void hit(int damage) {
+        health -= damage;
+        isAlive = health > 0;
     }
 
     public double getSpeed() {

@@ -14,11 +14,11 @@ public class Turret extends Entity {
     private double range;
     private long fireRate;
     private long lastShot;
-    private List<Entity> potentialTargets;
-    private Entity currentTarget;
-    private List<Entity> bullets;
+    private List<Enemy> potentialTargets;
+    private Enemy currentTarget;
+    private List<Bullet> bullets;
 
-    public Turret(Vector2 position, double range, long fireRate, List<Entity> potentialTargets, List<Entity> bullets) {
+    public Turret(Vector2 position, double range, long fireRate, List<Enemy> potentialTargets, List<Bullet> bullets) {
         super(position);
         this.range = range;
         this.fireRate = fireRate;
@@ -30,11 +30,11 @@ public class Turret extends Entity {
 
     @Override
     public void update(Timer timer) {
-        Entity target = hasTarget() ? currentTarget : getTarget();
+        Enemy target = hasTarget() ? currentTarget : getTarget();
         if(target != null) {
             lastShot += timer.gelElapsedTime();
             if(lastShot > fireRate) {
-                bullets.add(new Bullet(new Vector2(position), 40, target));
+                bullets.add(new Bullet(new Vector2(position), 40, 1, target));
                 lastShot -= fireRate;
             }
         }
@@ -44,8 +44,8 @@ public class Turret extends Entity {
         return currentTarget != null && getDistance(currentTarget.getPosition()) < range;
     }
 
-    private Entity getTarget() {
-        Optional<Entity> first = potentialTargets.stream()
+    private Enemy getTarget() {
+        Optional<Enemy> first = potentialTargets.stream()
                 .filter(entity -> getDistance(entity.getPosition()) < range)
                 .findFirst();
         if(first.isPresent()) {

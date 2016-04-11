@@ -6,6 +6,7 @@ import com.adrien.games.application.Input;
 import com.adrien.games.application.Timer;
 import com.adrien.games.math.Vector2;
 import com.adrien.games.towerdefense.animation.Path;
+import com.adrien.games.towerdefense.entity.Bullet;
 import com.adrien.games.towerdefense.entity.Enemy;
 import com.adrien.games.towerdefense.entity.Entity;
 import com.adrien.games.towerdefense.entity.Turret;
@@ -28,10 +29,10 @@ public class TowerDefense extends GameApplication {
     private static final long ENEMY_SPAWN_RATE = 2000;
 
     private Map map = new Map(800, 600, 1D, new Vector2(20, 20), new Vector2(780, 580));
-    private List<Entity> enemies = new ArrayList<>();
+    private List<Enemy> enemies = new ArrayList<>();
     private static long lastSpawnTime = 0;
-    private List<Entity> turrets = new ArrayList<>();
-    private List<Entity> bullets = new ArrayList<>();
+    private List<Turret> turrets = new ArrayList<>();
+    private List<Bullet> bullets = new ArrayList<>();
 
     @Override
     protected void init(GameSettings gameSettings) {
@@ -55,12 +56,14 @@ public class TowerDefense extends GameApplication {
             Path path = new Path();
             path.addCheckPoint(new Vector2(map.getMinionSpawn()));
             path.addCheckPoint(new Vector2(map.getObjective()));
-            enemies.add(new Enemy(new Vector2(map.getMinionSpawn()), 25, path));
+            enemies.add(new Enemy(new Vector2(map.getMinionSpawn()), 3, 25, path));
             lastSpawnTime -= ENEMY_SPAWN_RATE;
         }
         enemies.stream().forEach(enemy -> enemy.update(timer));
+        enemies.removeIf(enemy -> !enemy.isAlive());
         turrets.stream().forEach(turret -> turret.update(timer));
         bullets.stream().forEach(bullet -> bullet.update(timer));
+        bullets.removeIf(entity -> !entity.isAlive());
     }
 
     @Override
