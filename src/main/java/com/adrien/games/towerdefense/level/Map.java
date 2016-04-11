@@ -1,20 +1,27 @@
 package com.adrien.games.towerdefense.level;
 
+import com.adrien.games.math.Vector2;
+
 /**
  * Game level.
  * The map is a grid whose cell size can be chosen.
+ * It has a minion spawn and an objective.
  */
 public class Map {
 
     private final int width;
     private final int height;
     private final double cellSize;
+    private final Vector2 minionSpawn;
+    private final Vector2 objective;
     private final boolean[][] collisionMask;
 
-    public Map(int width, int height, double cellSize) {
+    public Map(int width, int height, double cellSize, Vector2 minionSpawn, Vector2 objective) {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
+        this.minionSpawn = minionSpawn;
+        this.objective = objective;
         this.collisionMask = new boolean[width][height];
     }
 
@@ -42,4 +49,11 @@ public class Map {
         return cellSize;
     }
 
+    public Vector2 getMinionSpawn() {
+        return minionSpawn;
+    }
+
+    public Vector2 getObjective() {
+        return objective;
+    }
 }

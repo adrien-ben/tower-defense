@@ -6,7 +6,7 @@ import com.adrien.games.towerdefense.animation.Path;
 import com.adrien.games.utils.Assert;
 
 /**
- * Enemy class.
+ * An enemy follows its path.
  */
 public class Enemy implements Entity {
 
