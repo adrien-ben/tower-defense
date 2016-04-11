@@ -8,14 +8,13 @@ import com.adrien.games.utils.Assert;
 /**
  * An enemy follows its path.
  */
-public class Enemy implements Entity {
+public class Enemy extends Entity {
 
-    private Vector2 position;
     private double speed;
     private final Path path;
 
     public Enemy(Vector2 position, double speed, Path path) {
-        this.position = Assert.isNotNull(position, "Position cannot be null.");
+        super(position);
         this.speed = speed;
         this.path = Assert.isNotNull(path, "Path cannot be null.");
     }
@@ -26,10 +25,6 @@ public class Enemy implements Entity {
             path.update(speed, (double)timer.gelElapsedTime()/Timer.MS_IN_ONE_S);
             position = path.getPosition();
         }
-    }
-
-    public Vector2 getPosition() {
-        return position;
     }
 
     public double getSpeed() {
