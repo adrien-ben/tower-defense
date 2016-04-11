@@ -61,7 +61,7 @@ public class Path {
     }
 
     public Deque<Vector2> getCheckPoints() {
-        return checkPoints;
+        return new ArrayDeque<>(checkPoints);
     }
 
     public Vector2 getPosition() {
