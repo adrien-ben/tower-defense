@@ -10,11 +10,9 @@ import com.adrien.games.utils.Assert;
 public abstract class Entity {
 
     protected Vector2 position;
-    protected boolean isAlive;
 
     public Entity(Vector2 position) {
         this.position = Assert.isNotNull(position, "Position cannot be null.");
-        this.isAlive = true;
     }
 
     public abstract void update(Timer timer);
@@ -23,8 +21,6 @@ public abstract class Entity {
         return position;
     }
 
-    public boolean isAlive(){
-        return isAlive;
-    }
+    public abstract boolean isAlive();
 
 }

@@ -29,9 +29,13 @@ public class Enemy extends Entity {
         }
     }
 
+    @Override
+    public boolean isAlive() {
+        return health > 0;
+    }
+
     public void hit(int damage) {
         health -= damage;
-        isAlive = health > 0;
     }
 
     public double getSpeed() {

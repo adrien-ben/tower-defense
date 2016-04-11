@@ -11,12 +11,14 @@ public class Bullet extends Entity {
     private double speed;
     private int damage;
     private Enemy target;
+    private boolean hit;
 
     public Bullet(Vector2 position, double speed, int damage, Enemy target) {
         super(position);
         this.speed = speed;
         this.damage = damage;
         this.target = target;
+        this.hit = false;
     }
 
     @Override
@@ -26,11 +28,16 @@ public class Bullet extends Entity {
         direction.normalize();
         direction.scale(speed*timer.gelElapsedTime()/Timer.MS_IN_ONE_S);
         if(distance < direction.getLength()) {
-            isAlive = false;
             target.hit(damage);
+            hit = true;
         } else {
             position.add(direction);
         }
+    }
+
+    @Override
+    public boolean isAlive() {
+        return !hit;
     }
 
     public double getSpeed() {

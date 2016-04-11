@@ -40,6 +40,11 @@ public class Turret extends Entity {
         }
     }
 
+    @Override
+    public boolean isAlive() {
+        return true;
+    }
+
     private boolean hasTarget() {
         return currentTarget != null && getDistance(currentTarget.getPosition()) < range;
     }
