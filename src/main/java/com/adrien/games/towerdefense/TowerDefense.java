@@ -7,6 +7,7 @@ import com.adrien.games.application.Timer;
 import com.adrien.games.math.Vector2;
 import com.adrien.games.towerdefense.animation.Path;
 import com.adrien.games.towerdefense.entity.Enemy;
+import com.adrien.games.towerdefense.entity.Entity;
 import com.adrien.games.towerdefense.entity.Turret;
 import com.adrien.games.towerdefense.level.Map;
 
@@ -27,9 +28,9 @@ public class TowerDefense extends GameApplication {
     private static final long ENEMY_SPAWN_RATE = 2000;
 
     private Map map = new Map(800, 600, 1D, new Vector2(20, 20), new Vector2(780, 580));
-    private List<Enemy> enemies = new ArrayList<>();
+    private List<Entity> enemies = new ArrayList<>();
     private static long lastSpawnTime = 0;
-    private List<Turret> turrets = new ArrayList<>();
+    private List<Entity> turrets = new ArrayList<>();
 
     @Override
     protected void init(GameSettings gameSettings) {
@@ -41,7 +42,7 @@ public class TowerDefense extends GameApplication {
     @Override
     protected void handleInput(Input input) {
         if(input.wasBtnPressed(Input.BTN_LEFT) && map.isAccessible(input.getMouseX(), input.getMouseY())) {
-            Turret newTurret = new Turret(new Vector2(input.getMouseX(), input.getMouseY()), 50, 1000);
+            Turret newTurret = new Turret(new Vector2(input.getMouseX(), input.getMouseY()), 50, 1000, enemies);
             turrets.add(newTurret);
         }
     }
@@ -72,12 +73,12 @@ public class TowerDefense extends GameApplication {
         turrets.stream().forEach(turret -> renderTurret(graphics2D, turret));
     }
 
-    private void renderEnemy(Graphics2D graphics2D, Enemy enemy) {
+    private void renderEnemy(Graphics2D graphics2D, Entity enemy) {
         Vector2 position = enemy.getPosition();
         graphics2D.drawOval((int)position.getX() - 5, (int)position.getY() - 5, 10, 10);
     }
 
-    private void renderTurret(Graphics2D graphics2D, Turret turret) {
+    private void renderTurret(Graphics2D graphics2D, Entity turret) {
         Vector2 position = turret.getPosition();
         graphics2D.drawOval((int) position.getX() - 10, (int) position.getY() - 10, 20, 20);
     }
