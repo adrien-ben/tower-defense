@@ -16,14 +16,16 @@ public class Turret extends Entity {
     private long lastShot;
     private List<Entity> potentialTargets;
     private Entity currentTarget;
+    private List<Entity> bullets;
 
-    public Turret(Vector2 position, double range, long fireRate, List<Entity> potentialTargets) {
+    public Turret(Vector2 position, double range, long fireRate, List<Entity> potentialTargets, List<Entity> bullets) {
         super(position);
         this.range = range;
         this.fireRate = fireRate;
         this.lastShot = 0L;
         this.potentialTargets = potentialTargets;
         this.currentTarget = null;
+        this.bullets = bullets;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class Turret extends Entity {
         if(target != null) {
             lastShot += timer.gelElapsedTime();
             if(lastShot > fireRate) {
-                System.out.println("SHOT AT " + target.getPosition().getX() + " " + target.getPosition().getY());
+                bullets.add(new Bullet(new Vector2(position), 40, target));
                 lastShot -= fireRate;
             }
         }

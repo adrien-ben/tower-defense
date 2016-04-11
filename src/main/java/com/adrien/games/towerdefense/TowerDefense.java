@@ -31,6 +31,7 @@ public class TowerDefense extends GameApplication {
     private List<Entity> enemies = new ArrayList<>();
     private static long lastSpawnTime = 0;
     private List<Entity> turrets = new ArrayList<>();
+    private List<Entity> bullets = new ArrayList<>();
 
     @Override
     protected void init(GameSettings gameSettings) {
@@ -42,7 +43,7 @@ public class TowerDefense extends GameApplication {
     @Override
     protected void handleInput(Input input) {
         if(input.wasBtnPressed(Input.BTN_LEFT) && map.isAccessible(input.getMouseX(), input.getMouseY())) {
-            Turret newTurret = new Turret(new Vector2(input.getMouseX(), input.getMouseY()), 50, 1000, enemies);
+            Turret newTurret = new Turret(new Vector2(input.getMouseX(), input.getMouseY()), 50, 1000, enemies, bullets);
             turrets.add(newTurret);
         }
     }
@@ -54,11 +55,12 @@ public class TowerDefense extends GameApplication {
             Path path = new Path();
             path.addCheckPoint(new Vector2(map.getMinionSpawn()));
             path.addCheckPoint(new Vector2(map.getObjective()));
-            enemies.add(new Enemy(new Vector2(map.getMinionSpawn()), 50, path));
+            enemies.add(new Enemy(new Vector2(map.getMinionSpawn()), 25, path));
             lastSpawnTime -= ENEMY_SPAWN_RATE;
         }
         enemies.stream().forEach(enemy -> enemy.update(timer));
         turrets.stream().forEach(turret -> turret.update(timer));
+        bullets.stream().forEach(bullet -> bullet.update(timer));
     }
 
     @Override
@@ -71,6 +73,8 @@ public class TowerDefense extends GameApplication {
         enemies.stream().forEach(enemy -> renderEnemy(graphics2D, enemy));
         graphics2D.setColor(Color.GREEN);
         turrets.stream().forEach(turret -> renderTurret(graphics2D, turret));
+        graphics2D.setColor(Color.RED);
+        bullets.stream().forEach(bullet -> renderBullet(graphics2D, bullet));
     }
 
     private void renderEnemy(Graphics2D graphics2D, Entity enemy) {
@@ -81,6 +85,11 @@ public class TowerDefense extends GameApplication {
     private void renderTurret(Graphics2D graphics2D, Entity turret) {
         Vector2 position = turret.getPosition();
         graphics2D.drawOval((int) position.getX() - 10, (int) position.getY() - 10, 20, 20);
+    }
+
+    private void renderBullet(Graphics2D graphics2D, Entity bullet) {
+        Vector2 position = bullet.getPosition();
+        graphics2D.fillOval((int) position.getX() - 4, (int) position.getY() - 4, 8, 8);
     }
 
     @Override
