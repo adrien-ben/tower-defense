@@ -10,11 +10,10 @@ import com.adrien.games.towerdefense.entity.Bullet;
 import com.adrien.games.towerdefense.entity.Enemy;
 import com.adrien.games.towerdefense.entity.Entity;
 import com.adrien.games.towerdefense.entity.Turret;
-import com.adrien.games.towerdefense.level.Map;
+import com.adrien.games.towerdefense.level.Level;
+import com.adrien.games.towerdefense.world.World;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Main class of the game.
@@ -28,11 +27,9 @@ public class TowerDefense extends GameApplication {
 
     private static final long ENEMY_SPAWN_RATE = 2000;
 
-    private Map map = new Map(800, 600, 1D, new Vector2(20, 20), new Vector2(780, 580));
-    private List<Enemy> enemies = new ArrayList<>();
+    private World world = new World();
+    private Level level = new Level(800, 600, 1D, new Vector2(20, 20), new Vector2(780, 580));
     private static long lastSpawnTime = 0;
-    private List<Turret> turrets = new ArrayList<>();
-    private List<Bullet> bullets = new ArrayList<>();
 
     @Override
     protected void init(GameSettings gameSettings) {
@@ -43,9 +40,8 @@ public class TowerDefense extends GameApplication {
 
     @Override
     protected void handleInput(Input input) {
-        if(input.wasBtnPressed(Input.BTN_LEFT) && map.isAccessible(input.getMouseX(), input.getMouseY())) {
-            Turret newTurret = new Turret(new Vector2(input.getMouseX(), input.getMouseY()), 50, 1000, enemies, bullets);
-            turrets.add(newTurret);
+        if(input.wasBtnPressed(Input.BTN_LEFT) && level.isAccessible(input.getMouseX(), input.getMouseY())) {
+            world.addEntity(new Turret(new Vector2(input.getMouseX(), input.getMouseY()), 50, 1000));
         }
     }
 
@@ -54,30 +50,26 @@ public class TowerDefense extends GameApplication {
         lastSpawnTime += timer.gelElapsedTime();
         if(lastSpawnTime > ENEMY_SPAWN_RATE) {
             Path path = new Path();
-            path.addCheckPoint(new Vector2(map.getMinionSpawn()));
-            path.addCheckPoint(new Vector2(map.getObjective()));
-            enemies.add(new Enemy(new Vector2(map.getMinionSpawn()), 3, 25, path));
+            path.addCheckPoint(new Vector2(level.getMinionSpawn()));
+            path.addCheckPoint(new Vector2(level.getObjective()));
+            world.addEntity(new Enemy(new Vector2(level.getMinionSpawn()), 3, 25, path));
             lastSpawnTime -= ENEMY_SPAWN_RATE;
         }
-        enemies.stream().forEach(enemy -> enemy.update(timer));
-        enemies.removeIf(enemy -> !enemy.isAlive());
-        turrets.stream().forEach(turret -> turret.update(timer));
-        bullets.stream().forEach(bullet -> bullet.update(timer));
-        bullets.removeIf(entity -> !entity.isAlive());
+        world.update(timer);
     }
 
     @Override
     protected void render(Graphics2D graphics2D) {
         graphics2D.setColor(Color.ORANGE);
-        graphics2D.fillOval((int)map.getMinionSpawn().getX() - 20, (int)map.getMinionSpawn().getY() - 20, 40, 40);
+        graphics2D.fillOval((int) level.getMinionSpawn().getX() - 20, (int) level.getMinionSpawn().getY() - 20, 40, 40);
         graphics2D.setColor(Color.GRAY);
-        graphics2D.fillOval((int)map.getObjective().getX() - 20, (int)map.getObjective().getY() - 20, 40, 40);
+        graphics2D.fillOval((int) level.getObjective().getX() - 20, (int) level.getObjective().getY() - 20, 40, 40);
         graphics2D.setColor(Color.RED);
-        enemies.stream().forEach(enemy -> renderEnemy(graphics2D, enemy));
+        world.getEntities(Enemy.class).stream().forEach(enemy -> renderEnemy(graphics2D, enemy));
         graphics2D.setColor(Color.GREEN);
-        turrets.stream().forEach(turret -> renderTurret(graphics2D, turret));
+        world.getEntities(Turret.class).stream().forEach(turret -> renderTurret(graphics2D, turret));
         graphics2D.setColor(Color.RED);
-        bullets.stream().forEach(bullet -> renderBullet(graphics2D, bullet));
+        world.getEntities(Bullet.class).stream().forEach(bullet -> renderBullet(graphics2D, bullet));
     }
 
     private void renderEnemy(Graphics2D graphics2D, Entity enemy) {
