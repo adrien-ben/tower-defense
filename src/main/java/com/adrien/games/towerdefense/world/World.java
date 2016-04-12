@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Game world manages entities.
@@ -76,8 +77,9 @@ public class World {
      * @param clazz The class of the entity.
      * @return A list of entities.
      */
-    public List<Entity> getEntities(Class clazz) {
-        List<Entity> entityForClass = entitiesByType.get(clazz.getSimpleName());
-        return entityForClass == null ? new ArrayList<>() : new ArrayList<>(entityForClass);
+    @SuppressWarnings("unchecked")
+    public <T extends Entity> List<T> getEntities(Class<T> clazz) {
+        List<Entity> entitiesForClass = entitiesByType.get(clazz.getSimpleName());
+        return entitiesForClass == null ? new ArrayList<>() : entitiesForClass.stream().map(entity -> (T) entity).collect(Collectors.toList());
     }
 }

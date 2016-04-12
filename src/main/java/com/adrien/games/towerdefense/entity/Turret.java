@@ -45,11 +45,11 @@ public class Turret extends Entity {
     }
 
     private Enemy getTarget() {
-        Optional<Entity> first = world.getEntities(Enemy.class).stream()
+        Optional<Enemy> first = world.getEntities(Enemy.class).stream()
                 .filter(entity -> getDistance(entity.getPosition()) < range)
                 .findFirst();
         if(first.isPresent()) {
-            return (Enemy)first.get();
+            return first.get();
         }
         return null;
     }

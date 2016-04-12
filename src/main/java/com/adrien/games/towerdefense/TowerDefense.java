@@ -14,6 +14,8 @@ import com.adrien.games.towerdefense.level.Level;
 import com.adrien.games.towerdefense.world.World;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * Main class of the game.
@@ -36,6 +38,7 @@ public class TowerDefense extends GameApplication {
         gameSettings.setName(NAME + " " + VERSION);
         gameSettings.setWidth(SCREEN_WIDTH);
         gameSettings.setHeight(SCREEN_HEIGHT);
+
     }
 
     @Override
