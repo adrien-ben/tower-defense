@@ -2,6 +2,8 @@ package com.adrien.games.towerdefense.world;
 
 import com.adrien.games.application.Timer;
 import com.adrien.games.towerdefense.entity.Entity;
+import com.adrien.games.towerdefense.level.Level;
+import com.adrien.games.utils.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,14 +16,16 @@ import java.util.stream.Collectors;
  */
 public class World {
 
+    private final Level level;
     private final List<Entity> entities;
     private final List<Entity> entitiesBuffer;
     private final Map<String, List<Entity>> entitiesByType;
 
-    public World() {
-        entities = new ArrayList<>();
-        entitiesBuffer = new ArrayList<>();
-        entitiesByType = new HashMap<>();
+    public World(Level level) {
+        this.level = Assert.isNotNull(level, "Level cannot be null.");
+        this.entities = new ArrayList<>();
+        this.entitiesBuffer = new ArrayList<>();
+        this.entitiesByType = new HashMap<>();
     }
 
     /**
@@ -81,5 +85,9 @@ public class World {
     public <T extends Entity> List<T> getEntities(Class<T> clazz) {
         List<Entity> entitiesForClass = entitiesByType.get(clazz.getSimpleName());
         return entitiesForClass == null ? new ArrayList<>() : entitiesForClass.stream().map(entity -> (T) entity).collect(Collectors.toList());
+    }
+
+    public Level getLevel() {
+        return level;
     }
 }
