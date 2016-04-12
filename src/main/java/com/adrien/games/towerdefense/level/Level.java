@@ -1,6 +1,7 @@
 package com.adrien.games.towerdefense.level;
 
 import com.adrien.games.math.Vector2;
+import com.adrien.games.towerdefense.animation.Path;
 
 /**
  * Game level.
@@ -23,6 +24,22 @@ public class Level {
         this.minionSpawn = minionSpawn;
         this.objective = objective;
         this.collisionMask = new boolean[width][height];
+    }
+
+    /**
+     * Gets the path between two positions.
+     * The two position have to be accessible.
+     * @param start The start position.
+     * @param end The end position.
+     * @return A path between the start and the end.
+     */
+    public Path getPath(Vector2 start, Vector2 end) {
+        Path path = new Path();
+        if(isAccessible(start.getX(), start.getY()) && isAccessible(end.getX(), end.getY())) {
+            path.addCheckPoint(new Vector2(start));
+            path.addCheckPoint(new Vector2(end));
+        }
+        return path;
     }
 
     /**

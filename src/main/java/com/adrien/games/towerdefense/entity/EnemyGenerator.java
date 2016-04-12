@@ -2,7 +2,6 @@ package com.adrien.games.towerdefense.entity;
 
 import com.adrien.games.application.Timer;
 import com.adrien.games.math.Vector2;
-import com.adrien.games.towerdefense.animation.Path;
 
 /**
  * Generates an enemy every {code rate} ms.
@@ -22,10 +21,8 @@ public class EnemyGenerator extends Entity {
     public void update(Timer timer) {
         timeSinceLastGeneration += timer.gelElapsedTime();
         if(timeSinceLastGeneration > rate) {
-            Path path = new Path();
-            path.addCheckPoint(new Vector2(world.getLevel().getMinionSpawn()));
-            path.addCheckPoint(new Vector2(world.getLevel().getObjective()));
-            world.addEntity(new Enemy(new Vector2(world.getLevel().getMinionSpawn()), 3, 25, path));
+            world.addEntity(new Enemy(new Vector2(position), 3, 25,
+                    world.getLevel().getPath(position, world.getLevel().getObjective())));
             timeSinceLastGeneration -= rate;
         }
     }
