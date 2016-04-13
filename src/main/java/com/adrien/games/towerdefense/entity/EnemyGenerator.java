@@ -21,7 +21,7 @@ public class EnemyGenerator extends Entity {
     public void update(Timer timer) {
         timeSinceLastGeneration += timer.gelElapsedTime();
         if(timeSinceLastGeneration > rate) {
-            world.addEntity(new Enemy(new Vector2(position), 3, 25,
+            world.addEntity(new Enemy(new Vector2(position), 3, 1,
                     world.getLevel().getPath(position, world.getLevel().getObjective())));
             timeSinceLastGeneration -= rate;
         }

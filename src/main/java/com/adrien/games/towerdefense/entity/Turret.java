@@ -29,7 +29,7 @@ public class Turret extends Entity {
         if(target != null) {
             lastShot += timer.gelElapsedTime();
             if(lastShot > fireRate) {
-                world.addEntity(new Bullet(new Vector2(position), 40, 1, target));
+                world.addEntity(new Bullet(new Vector2(position), 2, 1, target));
                 lastShot -= fireRate;
             }
         }

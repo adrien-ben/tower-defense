@@ -2,6 +2,7 @@ package com.adrien.games.towerdefense.level;
 
 import com.adrien.games.math.Vector2;
 import com.adrien.games.towerdefense.animation.Path;
+import com.adrien.games.utils.Assert;
 
 /**
  * Game level.
@@ -21,7 +22,9 @@ public class Level {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
+        Assert.isTrue(isInside(minionSpawn), "Minion spawn cannot be placed outside the map.");
         this.minionSpawn = minionSpawn;
+        Assert.isTrue(isInside(objective), "Objective cannot be placed outside the map.");
         this.objective = objective;
         this.collisionMask = new boolean[width][height];
     }
@@ -35,7 +38,7 @@ public class Level {
      */
     public Path getPath(Vector2 start, Vector2 end) {
         Path path = new Path();
-        if(isAccessible(start.getX(), start.getY()) && isAccessible(end.getX(), end.getY())) {
+        if(isAccessible(start) && isAccessible(end)) {
             path.addCheckPoint(new Vector2(start));
             path.addCheckPoint(new Vector2(end));
         }
@@ -44,14 +47,24 @@ public class Level {
 
     /**
      * Checks if a position in the map can be accessed.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
+     * @param position THe position to check.
      * @return True if the position can be accessed, false otherwise.
      */
-    public boolean isAccessible(double x, double y) {
-        int gridX = (int)(x/cellSize);
-        int gridY = (int)(y/cellSize);
-        return gridX >= 0 && gridX <= width && gridY >= 0 && gridY <= height && !collisionMask[gridX][gridY];
+    public boolean isAccessible(Vector2 position) {
+        int gridX = (int)(position.getX()/cellSize);
+        int gridY = (int)(position.getY()/cellSize);
+        return isInside(position) && !collisionMask[gridX][gridY];
+    }
+
+    /**
+     * Checks if a position is contained inside map boundaries.
+     * @param position The position to check.
+     * @return True if the position is inside the map, false otherwise.
+     */
+    private boolean isInside(Vector2 position) {
+        double x = position.getX();
+        double y = position.getY();
+        return x > 0 && x < width*cellSize && y > 0 && y < height*cellSize;
     }
 
     public int getWidth() {

@@ -24,7 +24,7 @@ public class Enemy extends Entity {
     @Override
     public void update(Timer timer) {
         if(!path.isEndReached()) {
-            path.update(speed, (double)timer.gelElapsedTime()/Timer.MS_IN_ONE_S);
+            path.update(speed, (double)timer.gelElapsedTime()/Timer.MS_PER_SECOND);
             position = path.getPosition();
         }
     }

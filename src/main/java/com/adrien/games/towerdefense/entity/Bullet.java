@@ -26,7 +26,7 @@ public class Bullet extends Entity {
         Vector2 direction = new Vector2(target.getPosition().getX() - position.getX(), target.getPosition().getY() - position.getY());
         double distance = direction.getLength();
         direction.normalize();
-        direction.scale(speed*timer.gelElapsedTime()/Timer.MS_IN_ONE_S);
+        direction.scale(speed*timer.gelElapsedTime()/Timer.MS_PER_SECOND);
         if(distance < direction.getLength()) {
             target.hit(damage);
             hit = true;
