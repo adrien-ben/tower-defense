@@ -24,7 +24,7 @@ public class TowerDefense extends GameApplication {
     private static final int LEVEL_WIDTH = 30;
     private static final int LEVEL_HEIGHT = 30;
     private static final long ENEMY_GENERATION_RATE = 1000;
-    private static final long TURRET_RATE = 1000;
+    private static final long TURRET_RATE = 2000;
     private static final double TURRET_RANGE = 3;
     private static final double CELL_SIZE = 1;
     private static final double TURRET_SIZE = 1;
