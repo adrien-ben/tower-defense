@@ -1,13 +1,9 @@
 package com.adrien.games.towerdefense.level;
 
 import com.adrien.games.math.Vector2;
-import com.adrien.games.pathfinding.PathFinder;
 import com.adrien.games.pathfinding.graph.Edge;
 import com.adrien.games.pathfinding.graph.Graph;
-import com.adrien.games.towerdefense.animation.Path;
 import com.adrien.games.utils.Assert;
-
-import java.util.List;
 
 /**
  * Game level.
@@ -82,37 +78,6 @@ public class Level {
                 }
             }
         }
-    }
-
-    /**
-     * Gets the path between two positions using path finding.
-     * The two position have to be accessible.
-     * @param start The start position.
-     * @param end The end position.
-     * @return A path between the start and the end.
-     */
-    public Path getPath(Vector2 start, Vector2 end) {
-        Path path = new Path();
-        if(isAccessible(start) && isAccessible(end)) {
-            List<Vector2> foundPath = PathFinder.findPath(
-                    graph,
-                    new Vector2((int)(start.getX()/cellSize), (int)(start.getY()/cellSize)),
-                    new Vector2((int)(end.getX()/cellSize), (int)(end.getY()/cellSize)),
-                    (v1, v2) -> {
-                        double xDist = v2.getX() - v1.getX();
-                        double yDist = v2.getY() - v1.getY();
-                        return xDist*xDist + yDist*yDist;
-                    }
-            );
-            path.addCheckPoint(new Vector2(start));
-            for(int i = 1; i < foundPath.size() - 2; i++) {
-                Vector2 nextPosition = foundPath.get(i);
-                path.addCheckPoint(new Vector2(nextPosition.getX()*cellSize + cellSize/2,
-                        nextPosition.getY()*cellSize + cellSize/2));
-            }
-            path.addCheckPoint(end);
-        }
-        return path;
     }
 
     /**
