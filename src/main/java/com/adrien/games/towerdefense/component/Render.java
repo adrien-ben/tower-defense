@@ -6,20 +6,10 @@ import java.awt.*;
 
 public class Render implements Component {
 
-    private Shape shape;
     private Color color;
 
     public Render(Shape shape, Color color) {
-        this.shape = shape;
         this.color = color;
-    }
-
-    public Shape getShape() {
-        return shape;
-    }
-
-    public void setShape(Shape shape) {
-        this.shape = shape;
     }
 
     public Color getColor() {
