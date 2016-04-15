@@ -5,13 +5,11 @@ import com.adrien.games.application.GameSettings;
 import com.adrien.games.application.Input;
 import com.adrien.games.application.Timer;
 import com.adrien.games.math.Vector2;
+import com.adrien.games.towerdefense.component.Tracker;
 import com.adrien.games.towerdefense.entity.EntityFactory;
 import com.adrien.games.towerdefense.level.Level;
 import com.adrien.games.towerdefense.level.LevelFactory;
-import com.adrien.games.towerdefense.system.BulletSystem;
-import com.adrien.games.towerdefense.system.MinionSystem;
-import com.adrien.games.towerdefense.system.MovementSystem;
-import com.adrien.games.towerdefense.system.RenderSystem;
+import com.adrien.games.towerdefense.system.*;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
@@ -52,12 +50,21 @@ public class TowerDefense extends GameApplication {
                 2,
                 1,
                 minion);
+        Entity turret = EntityFactory.createTurret(
+                new Vector2(400, 600),
+                50,
+                500,
+                1,
+                1);
+        turret.getComponent(Tracker.class).setEntity(minion);
 
         engine.addEntity(minion);
         engine.addEntity(bullet);
+        engine.addEntity(turret);
         engine.addSystem(new MinionSystem());
         engine.addSystem(new BulletSystem());
         engine.addSystem(new MovementSystem());
+        engine.addSystem(new TurretSystem());
         engine.addSystem(renderSystem);
     }
 

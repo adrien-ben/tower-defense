@@ -1,6 +1,5 @@
 package com.adrien.games.towerdefense.system;
 
-import com.adrien.games.math.Vector2;
 import com.adrien.games.towerdefense.component.Position;
 import com.adrien.games.towerdefense.component.Velocity;
 import com.badlogic.ashley.core.ComponentMapper;

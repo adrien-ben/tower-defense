@@ -7,11 +7,13 @@ public class Shoot implements Component {
     private float rate;
     private int damage;
     private float range;
+    private float sinceLastShot;
 
     public Shoot(float rate, int damage, float range) {
         this.rate = rate;
         this.damage = damage;
         this.range = range;
+        this.sinceLastShot = rate;
     }
 
     public float getRate() {
@@ -36,5 +38,13 @@ public class Shoot implements Component {
 
     public void setRange(float range) {
         this.range = range;
+    }
+
+    public float getSinceLastShot() {
+        return sinceLastShot;
+    }
+
+    public void setSinceLastShot(float sinceLastShot) {
+        this.sinceLastShot = sinceLastShot;
     }
 }
