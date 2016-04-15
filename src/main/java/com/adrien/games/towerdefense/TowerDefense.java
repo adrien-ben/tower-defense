@@ -8,10 +8,12 @@ import com.adrien.games.math.Vector2;
 import com.adrien.games.towerdefense.entity.EntityFactory;
 import com.adrien.games.towerdefense.level.Level;
 import com.adrien.games.towerdefense.level.LevelFactory;
+import com.adrien.games.towerdefense.system.BulletSystem;
 import com.adrien.games.towerdefense.system.MinionSystem;
 import com.adrien.games.towerdefense.system.MovementSystem;
 import com.adrien.games.towerdefense.system.RenderSystem;
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -37,13 +39,24 @@ public class TowerDefense extends GameApplication {
         gameSettings.setWidth(SCREEN_WIDTH);
         gameSettings.setHeight(SCREEN_HEIGHT);
 
-        engine.addEntity(EntityFactory.createMinion(
+        Entity minion = EntityFactory.createMinion(
                 new Vector2(0, 300),
                 30,
                 400,
                 Arrays.asList(new Vector2(0, 300), new Vector2(800, 300), new Vector2(0, 300)),
-                10));
+                10);
+        Entity bullet = EntityFactory.createBullet(
+                new Vector2(0, 600),
+                15,
+                200,
+                2,
+                1,
+                minion);
+
+        engine.addEntity(minion);
+        engine.addEntity(bullet);
         engine.addSystem(new MinionSystem());
+        engine.addSystem(new BulletSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(renderSystem);
     }
