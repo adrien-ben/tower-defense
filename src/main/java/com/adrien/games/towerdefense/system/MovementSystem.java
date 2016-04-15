@@ -24,11 +24,7 @@ public class MovementSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float time) {
         Position position = positionMapper.get(entity);
         Velocity velocity = velocityMapper.get(entity);
-
-        Vector2 distanceToGo = new Vector2(velocity.getDirection());
-        distanceToGo.normalize();
-        distanceToGo.scale(velocity.getSpeed()*time);
-        position.getPosition().add(distanceToGo);
+        position.getPosition().add(velocity.getDirection());
     }
 
 }

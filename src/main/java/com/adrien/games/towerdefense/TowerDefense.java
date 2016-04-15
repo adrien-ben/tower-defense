@@ -5,11 +5,16 @@ import com.adrien.games.application.GameSettings;
 import com.adrien.games.application.Input;
 import com.adrien.games.application.Timer;
 import com.adrien.games.math.Vector2;
+import com.adrien.games.towerdefense.entity.EntityFactory;
 import com.adrien.games.towerdefense.level.Level;
 import com.adrien.games.towerdefense.level.LevelFactory;
+import com.adrien.games.towerdefense.system.MinionSystem;
+import com.adrien.games.towerdefense.system.MovementSystem;
+import com.adrien.games.towerdefense.system.RenderSystem;
 import com.badlogic.ashley.core.Engine;
 
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * Main class of the game.
@@ -24,6 +29,7 @@ public class TowerDefense extends GameApplication {
 
     private Level level = LevelFactory.createTestLevel();
     private Engine engine = new Engine();
+    private RenderSystem renderSystem = new RenderSystem();
 
     @Override
     protected void init(GameSettings gameSettings) {
@@ -31,6 +37,15 @@ public class TowerDefense extends GameApplication {
         gameSettings.setWidth(SCREEN_WIDTH);
         gameSettings.setHeight(SCREEN_HEIGHT);
 
+        engine.addEntity(EntityFactory.createMinion(
+                new Vector2(0, 300),
+                30,
+                400,
+                Arrays.asList(new Vector2(0, 300), new Vector2(800, 300), new Vector2(0, 300)),
+                10));
+        engine.addSystem(new MinionSystem());
+        engine.addSystem(new MovementSystem());
+        engine.addSystem(renderSystem);
     }
 
     @Override
@@ -45,6 +60,8 @@ public class TowerDefense extends GameApplication {
     @Override
     protected void render(Graphics2D graphics2D) {
         renderLevel(graphics2D);
+        renderSystem.setGraphics2D(graphics2D);
+        renderSystem.update(0);
     }
 
     private void renderLevel(Graphics2D graphics2D) {
