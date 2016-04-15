@@ -8,7 +8,7 @@ public class Render implements Component {
 
     private Color color;
 
-    public Render(Shape shape, Color color) {
+    public Render(Color color) {
         this.color = color;
     }
 
