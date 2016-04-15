@@ -57,6 +57,7 @@ public class EntityFactory {
                 new Path(0, path),
                 new Collision(MINION_GROUP),
                 new Health(health),
+                new Target(),
                 new Render(Color.YELLOW));
     }
 
