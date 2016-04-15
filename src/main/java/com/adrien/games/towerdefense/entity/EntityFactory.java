@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.util.List;
 
 /**
