@@ -18,13 +18,13 @@ public class Level {
 
     private final int width;
     private final int height;
-    private final double cellSize;
+    private final float cellSize;
     private final Vector2 minionSpawn;
     private final Vector2 objective;
     private final boolean[][] collisionMask;
     private final Graph<Vector2> graph;
 
-    public Level(int width, int height, double cellSize, Vector2 minionSpawn, Vector2 objective, boolean[][] collisionMask) {
+    public Level(int width, int height, float cellSize, Vector2 minionSpawn, Vector2 objective, boolean[][] collisionMask) {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
@@ -74,10 +74,10 @@ public class Level {
                 if((x != xx || y != yy) && !collisionMask[xx][yy]) {
                     Vector2 source = new Vector2(x, y);
                     Vector2 target = new Vector2(xx, yy);
-                    double distance = x == xx || y == yy ? 1 : 1.2;
-                    graph.addEdge(source, target, new Edge(distance));
+                    float distance = x == xx || y == yy ? 1 : 1.2f;
+                    graph.addEdge(source, target, new Edge((double)distance));
                     if(bidirectional) {
-                        graph.addEdge(target, source, new Edge(distance));
+                        graph.addEdge(target, source, new Edge((double)distance));
                     }
                 }
             }
@@ -99,9 +99,9 @@ public class Level {
                     new Vector2((int) (start.getX() / cellSize), (int) (start.getY() / cellSize)),
                     new Vector2((int) (end.getX() / cellSize), (int) (end.getY() / cellSize)),
                     (v1, v2) -> {
-                        double xDist = v2.getX() - v1.getX();
-                        double yDist = v2.getY() - v1.getY();
-                        return xDist * xDist + yDist * yDist;
+                        float xDist = v2.getX() - v1.getX();
+                        float yDist = v2.getY() - v1.getY();
+                        return (double)(xDist * xDist + yDist * yDist);
                     }
             );
             path.add(new Vector2(start));
@@ -132,8 +132,8 @@ public class Level {
      * @return True if the position is inside the map, false otherwise.
      */
     private boolean isInside(Vector2 position) {
-        double x = position.getX();
-        double y = position.getY();
+        float x = position.getX();
+        float y = position.getY();
         return x >= 0 && x < width*cellSize && y >= 0 && y < height*cellSize;
     }
 
@@ -145,7 +145,7 @@ public class Level {
         return height;
     }
 
-    public double getCellSize() {
+    public float getCellSize() {
         return cellSize;
     }
 

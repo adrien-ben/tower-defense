@@ -34,7 +34,7 @@ public class TargetingSystem extends EntitySystem {
             if(trackerComponent.getEntity() != null && trackerComponent.getRange() > 0) {
                 Position currentTargetPosition = positionMapper.get(trackerComponent.getEntity());
                 if(currentTargetPosition != null) {
-                    float distance = (float)new Vector2(
+                    float distance = new Vector2(
                             currentTargetPosition.getPosition().getX() - trackerPosition.getPosition().getX(),
                             currentTargetPosition.getPosition().getY() - trackerPosition.getPosition().getY()).getLength();
                     if(distance > trackerComponent.getRange()) {
@@ -46,7 +46,7 @@ public class TargetingSystem extends EntitySystem {
             if(trackerComponent.getEntity() == null) {
                 for(Entity target : targets) {
                     Position targetPosition = positionMapper.get(target);
-                    float distance = (float)new Vector2(
+                    float distance = new Vector2(
                             targetPosition.getPosition().getX() - trackerPosition.getPosition().getX(),
                             targetPosition.getPosition().getY() - trackerPosition.getPosition().getY()).getLength();
                     if(distance <= trackerComponent.getRange()) {

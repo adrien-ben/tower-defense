@@ -40,7 +40,7 @@ public class TurretSystem extends IteratingSystem {
             Position targetPosition = positionMapper.get(tracker.getEntity());
             if(targetPosition != null) {
 
-                float distance = (float)new Vector2(targetPosition.getPosition().getX() - position.getPosition().getX(),
+                float distance = new Vector2(targetPosition.getPosition().getX() - position.getPosition().getX(),
                         targetPosition.getPosition().getY() - position.getPosition().getY()
                 ).getLength();
 

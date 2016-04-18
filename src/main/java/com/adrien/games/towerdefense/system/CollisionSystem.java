@@ -43,7 +43,7 @@ public class CollisionSystem extends EntitySystem {
                     Position position2 = positionMapper.get(entity2);
                     Body body2 = bodyMapper.get(entity2);
 
-                    float distance = (float)new Vector2(position1.getPosition().getX() - position2.getPosition().getX(),
+                    float distance = new Vector2(position1.getPosition().getX() - position2.getPosition().getX(),
                             position1.getPosition().getY() - position2.getPosition().getY()).getLength();
 
                     if(distance <= body1.getSize()/2 + body2.getSize()/2) {
