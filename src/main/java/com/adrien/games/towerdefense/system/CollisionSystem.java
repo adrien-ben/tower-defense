@@ -28,7 +28,7 @@ public class CollisionSystem extends EntitySystem {
     public void update(float deltaTime) {
 
         for(int i = 0; i < entities.size(); i++) {
-            for(int j = 0; j < entities.size() && i != j; j++) {
+            for(int j = i + 1; j < entities.size() && i != j; j++) {
 
                 Entity entity1 = entities.get(i);
                 Entity entity2 = entities.get(j);
@@ -49,6 +49,8 @@ public class CollisionSystem extends EntitySystem {
                     if(distance <= body1.getSize()/2 + body2.getSize()/2) {
                         if(collision1.getGroup() == EntityFactory.BULLET_GROUP && collision2.getGroup() == EntityFactory.MINION_GROUP) {
                             getEngine().removeEntity(entity1);
+                        } else if(collision1.getGroup() == EntityFactory.MINION_GROUP && collision2.getGroup() == EntityFactory.BULLET_GROUP) {
+                            getEngine().removeEntity(entity2);
                         }
                     }
 
