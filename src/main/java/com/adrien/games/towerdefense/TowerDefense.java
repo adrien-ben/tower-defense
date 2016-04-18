@@ -50,6 +50,7 @@ public class TowerDefense extends GameApplication {
         engine.addSystem(new MinionSystem());
         engine.addSystem(new BulletSystem());
         engine.addSystem(new MovementSystem());
+        engine.addSystem(new CollisionSystem());
         engine.addSystem(new TargetingSystem());
         engine.addSystem(new TurretSystem());
         engine.addSystem(new SpawnSystem(level));

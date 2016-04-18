@@ -14,7 +14,7 @@ import java.util.List;
 public class EntityFactory {
 
     public static final int BULLET_GROUP = 0;
-    private static final int MINION_GROUP = 1;
+    public static final int MINION_GROUP = 1;
 
     public static Entity create(Component... components) {
         Entity entity = new Entity();
