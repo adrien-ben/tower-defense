@@ -5,7 +5,6 @@ import com.adrien.games.application.GameSettings;
 import com.adrien.games.application.Input;
 import com.adrien.games.application.Timer;
 import com.adrien.games.math.Vector2;
-import com.adrien.games.towerdefense.component.Tracker;
 import com.adrien.games.towerdefense.entity.EntityFactory;
 import com.adrien.games.towerdefense.level.Level;
 import com.adrien.games.towerdefense.level.LevelFactory;
@@ -14,7 +13,6 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
 import java.awt.*;
-import java.util.Arrays;
 
 /**
  * Main class of the game.
@@ -25,7 +23,7 @@ public class TowerDefense extends GameApplication {
     private static final String VERSION = "v0.1";
     private static final int SCREEN_WIDTH = 800;
     private static final int SCREEN_HEIGHT = 600;
-    private static final int PIXELS_PER_UNIT = 16;
+    private static final int PIXELS_PER_UNIT = 1;
 
     private Level level = LevelFactory.createTestLevel();
     private Engine engine = new Engine();
@@ -37,34 +35,23 @@ public class TowerDefense extends GameApplication {
         gameSettings.setWidth(SCREEN_WIDTH);
         gameSettings.setHeight(SCREEN_HEIGHT);
 
-        Entity minion = EntityFactory.createMinion(
-                new Vector2(0, 300),
-                30,
-                400,
-                Arrays.asList(new Vector2(0, 300), new Vector2(800, 300), new Vector2(0, 300)),
-                10);
-        Entity bullet = EntityFactory.createBullet(
-                new Vector2(0, 600),
-                15,
-                200,
-                2,
-                1,
-                minion);
+        Entity spawner = EntityFactory.createSpawner(
+                new Vector2(level.getMinionSpawn()),
+                50,
+                2);
         Entity turret = EntityFactory.createTurret(
                 new Vector2(400, 600),
                 50,
                 500,
                 1,
                 1);
-        turret.getComponent(Tracker.class).setEntity(minion);
-
-        engine.addEntity(minion);
-        engine.addEntity(bullet);
         engine.addEntity(turret);
+        engine.addEntity(spawner);
         engine.addSystem(new MinionSystem());
         engine.addSystem(new BulletSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new TurretSystem());
+        engine.addSystem(new SpawnSystem(level));
         engine.addSystem(renderSystem);
     }
 

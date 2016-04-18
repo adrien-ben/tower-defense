@@ -11,7 +11,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
 /**
- * Generates a bullet if target is in range or forget target if out of rage.
+ * Generates a bullet if target is in range.
  */
 public class TurretSystem extends IteratingSystem {
 
@@ -44,9 +44,7 @@ public class TurretSystem extends IteratingSystem {
                         targetPosition.getPosition().getY() - position.getPosition().getY()
                 ).getLength();
 
-                if(distance > shoot.getRange()) {
-                    tracker.setEntity(null);
-                } else {
+                if(distance <= shoot.getRange()) {
                     getEngine().addEntity(EntityFactory.createBullet(
                             new Vector2(position.getPosition()),
                             BULLET_SIZE,

@@ -5,9 +5,11 @@ import com.badlogic.ashley.core.Component;
 public class Spawner implements Component {
 
     private float rate;
+    private float sinceLastSpawn;
 
     public Spawner(float rate) {
         this.rate = rate;
+        this.sinceLastSpawn = rate;
     }
 
     public float getRate() {
@@ -16,5 +18,13 @@ public class Spawner implements Component {
 
     public void setRate(float rate) {
         this.rate = rate;
+    }
+
+    public float getSinceLastSpawn() {
+        return sinceLastSpawn;
+    }
+
+    public void setSinceLastSpawn(float sinceLastSpawn) {
+        this.sinceLastSpawn = sinceLastSpawn;
     }
 }
