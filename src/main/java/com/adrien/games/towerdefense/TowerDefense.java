@@ -37,12 +37,12 @@ public class TowerDefense extends GameApplication {
 
         Entity spawner = EntityFactory.createSpawner(
                 new Vector2(level.getMinionSpawn()),
-                50,
+                16,
                 2);
         Entity turret = EntityFactory.createTurret(
-                new Vector2(0, 100),
-                50,
-                200,
+                new Vector2(80, 50),
+                12,
+                60,
                 1,
                 1);
         engine.addEntity(turret);
@@ -79,7 +79,7 @@ public class TowerDefense extends GameApplication {
         graphics2D.setColor(Color.LIGHT_GRAY);
         for(int x = 0; x < level.getWidth(); x++) {
             for(int y = 0; y < level.getHeight(); y++) {
-                if(level.isAccessible(new Vector2(x, y))) {
+                if(level.isAccessible(new Vector2(x*cellSize, y*cellSize))) {
                     graphics2D.drawRect(x*cellSize, y*cellSize, cellSize, cellSize);
                 } else {
                     graphics2D.fillRect(x*cellSize, y*cellSize, cellSize, cellSize);

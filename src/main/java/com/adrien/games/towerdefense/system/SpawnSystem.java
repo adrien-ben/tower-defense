@@ -10,15 +10,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
-import java.util.Arrays;
-
 /**
  * Spawn minions.
  */
 public class SpawnSystem extends IteratingSystem {
 
-    private static final float MINION_SIZE = 30;
-    private static final float MINION_SPEED = 400;
+    private static final float MINION_SIZE = 12;
+    private static final float MINION_SPEED = 50;
     private static final int MINION_HEALTH = 10;
 
     private final ComponentMapper<Position> positionMapper = ComponentMapper.getFor(Position.class);
@@ -44,7 +42,7 @@ public class SpawnSystem extends IteratingSystem {
                     new Vector2(position.getPosition()),
                     MINION_SIZE,
                     MINION_SPEED,
-                    Arrays.asList(new Vector2(position.getPosition()), new Vector2(level.getObjective())),
+                    level.getPath(position.getPosition(), level.getObjective()),
                     MINION_HEALTH
             ));
             spawner.setSinceLastSpawn(spawner.getSinceLastSpawn() - spawner.getRate());

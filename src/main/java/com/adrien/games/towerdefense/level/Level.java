@@ -1,9 +1,13 @@
 package com.adrien.games.towerdefense.level;
 
 import com.adrien.games.math.Vector2;
+import com.adrien.games.pathfinding.PathFinder;
 import com.adrien.games.pathfinding.graph.Edge;
 import com.adrien.games.pathfinding.graph.Graph;
 import com.adrien.games.utils.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Game level.
@@ -70,7 +74,7 @@ public class Level {
                 if((x != xx || y != yy) && !collisionMask[xx][yy]) {
                     Vector2 source = new Vector2(x, y);
                     Vector2 target = new Vector2(xx, yy);
-                    double distance = x == xx || y == yy ? 1 : 0.8;
+                    double distance = x == xx || y == yy ? 1 : 1.2;
                     graph.addEdge(source, target, new Edge(distance));
                     if(bidirectional) {
                         graph.addEdge(target, source, new Edge(distance));
@@ -78,6 +82,37 @@ public class Level {
                 }
             }
         }
+    }
+
+    /**
+     * Gets the path between two positions using path finding.
+     * The two position have to be accessible.
+     * @param start The start position.
+     * @param end The end position.
+     * @return A path between the start and the end.
+     */
+    public List<Vector2> getPath(Vector2 start, Vector2 end) {
+        List<Vector2> path = new ArrayList<>();
+        if(isAccessible(start) && isAccessible(end)) {
+            List<Vector2> foundPath = PathFinder.findPath(
+                    graph,
+                    new Vector2((int) (start.getX() / cellSize), (int) (start.getY() / cellSize)),
+                    new Vector2((int) (end.getX() / cellSize), (int) (end.getY() / cellSize)),
+                    (v1, v2) -> {
+                        double xDist = v2.getX() - v1.getX();
+                        double yDist = v2.getY() - v1.getY();
+                        return xDist * xDist + yDist * yDist;
+                    }
+            );
+            path.add(new Vector2(start));
+            for(int i = 1; i < foundPath.size() - 2; i++) {
+                Vector2 nextPosition = foundPath.get(i);
+                path.add(new Vector2(nextPosition.getX()*cellSize + cellSize/2,
+                        nextPosition.getY()*cellSize + cellSize/2));
+            }
+            path.add(end);
+        }
+        return path;
     }
 
     /**
