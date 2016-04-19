@@ -43,7 +43,7 @@ public class TowerDefense extends GameApplication {
                 new Vector2(80, 50),
                 12,
                 60,
-                1,
+                0.6f,
                 1);
         engine.addEntity(turret);
         engine.addEntity(spawner);

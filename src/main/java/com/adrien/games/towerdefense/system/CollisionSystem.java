@@ -1,9 +1,7 @@
 package com.adrien.games.towerdefense.system;
 
 import com.adrien.games.math.Vector2;
-import com.adrien.games.towerdefense.component.Body;
-import com.adrien.games.towerdefense.component.Collision;
-import com.adrien.games.towerdefense.component.Position;
+import com.adrien.games.towerdefense.component.*;
 import com.adrien.games.towerdefense.entity.EntityFactory;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
@@ -16,6 +14,8 @@ public class CollisionSystem extends EntitySystem {
     private final ComponentMapper<Position> positionMapper = ComponentMapper.getFor(Position.class);
     private final ComponentMapper<Body> bodyMapper = ComponentMapper.getFor(Body.class);
     private final ComponentMapper<Collision> collisionMapper = ComponentMapper.getFor(Collision.class);
+    private final ComponentMapper<Damage> damageMapper = ComponentMapper.getFor(Damage.class);
+    private final ComponentMapper<Health> healthMapper = ComponentMapper.getFor(Health.class);
 
     private ImmutableArray<Entity> entities;
 
@@ -48,14 +48,25 @@ public class CollisionSystem extends EntitySystem {
 
                     if(distance <= body1.getSize()/2 + body2.getSize()/2) {
                         if(collision1.getGroup() == EntityFactory.BULLET_GROUP && collision2.getGroup() == EntityFactory.MINION_GROUP) {
+                            hit(entity1, entity2);
                             getEngine().removeEntity(entity1);
                         } else if(collision1.getGroup() == EntityFactory.MINION_GROUP && collision2.getGroup() == EntityFactory.BULLET_GROUP) {
+                            hit(entity2, entity1);
                             getEngine().removeEntity(entity2);
                         }
+
                     }
 
                 }
             }
+        }
+    }
+
+    private void hit(Entity source, Entity target) {
+        Damage damage = damageMapper.get(source);
+        Health health = healthMapper.get(target);
+        if(health != null && damage != null) {
+            health.setAmount(health.getAmount() - damage.getAmount());
         }
     }
 }
