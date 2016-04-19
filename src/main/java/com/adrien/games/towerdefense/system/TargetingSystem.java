@@ -7,20 +7,25 @@ import com.adrien.games.towerdefense.component.Tracker;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Forget out of range targets.
  * Acquire targets in range if no current target
  */
-public class TargetingSystem extends EntitySystem {
+public class TargetingSystem extends EntitySystem implements EntityListener {
 
     private final ComponentMapper<Position> positionMapper = ComponentMapper.getFor(Position.class);
     private final ComponentMapper<Tracker> trackerMapper = ComponentMapper.getFor(Tracker.class);
 
+    private final List<Entity> removedTargets = new ArrayList<>();
     private ImmutableArray<Entity> trackers;
     private ImmutableArray<Entity> targets;
 
     @Override
     public void addedToEngine(Engine engine) {
+        getEngine().addEntityListener(Family.all(Target.class).get(), this);
         trackers = engine.getEntitiesFor(Family.all(Position.class, Tracker.class).get());
         targets = engine.getEntitiesFor(Family.all(Position.class, Target.class).get());
     }
@@ -30,6 +35,10 @@ public class TargetingSystem extends EntitySystem {
         for(Entity tracker : trackers) {
             Position trackerPosition = positionMapper.get(tracker);
             Tracker trackerComponent = trackerMapper.get(tracker);
+
+            if(removedTargets.contains(trackerComponent.getEntity())) {
+                trackerComponent.setEntity(null);
+            }
 
             if(trackerComponent.getEntity() != null && trackerComponent.getRange() > 0) {
                 Position currentTargetPosition = positionMapper.get(trackerComponent.getEntity());
@@ -56,5 +65,15 @@ public class TargetingSystem extends EntitySystem {
                 }
             }
         }
+        removedTargets.clear();
+    }
+
+    @Override
+    public void entityAdded(Entity entity) {
+    }
+
+    @Override
+    public void entityRemoved(Entity entity) {
+        removedTargets.add(entity);
     }
 }
