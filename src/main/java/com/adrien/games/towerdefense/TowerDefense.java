@@ -24,6 +24,12 @@ public class TowerDefense extends GameApplication {
     private static final int SCREEN_WIDTH = 800;
     private static final int SCREEN_HEIGHT = 600;
     private static final int PIXELS_PER_UNIT = 1;
+    private static final float TURRET_RATE = 0.8f;
+    private static final float TURRET_RANGE = 60;
+    private static final float TURRET_SIZE = 12;
+    private static final int TURRET_DAMAGE = 1;
+    private static final float SPAWNER_RATE = 2;
+    private static final float SPAWNER_SIZE = 12;
 
     private Level level = LevelFactory.createTestLevel();
     private Engine engine = new Engine();
@@ -37,20 +43,20 @@ public class TowerDefense extends GameApplication {
 
         Entity spawner = EntityFactory.createSpawner(
                 new Vector2(level.getMinionSpawn()),
-                16,
-                2);
+                SPAWNER_SIZE,
+                SPAWNER_RATE);
         Entity turret1 = EntityFactory.createTurret(
                 new Vector2(80, 50),
-                12,
-                60,
-                0.6f,
-                1);
+                TURRET_SIZE,
+                TURRET_RANGE,
+                TURRET_RATE,
+                TURRET_DAMAGE);
         Entity turret2 = EntityFactory.createTurret(
                 new Vector2(80, 100),
-                12,
-                60,
-                0.6f,
-                1);
+                TURRET_SIZE,
+                TURRET_RANGE,
+                TURRET_RATE,
+                TURRET_DAMAGE);
         engine.addEntity(turret1);
         engine.addEntity(turret2);
         engine.addEntity(spawner);

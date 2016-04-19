@@ -13,16 +13,16 @@ public class LevelFactory {
 
     public static Level createTestLevel() {
         boolean[][] collisionMask = {
-                {false, false, false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false},
-                {true, true, true, true, true, true, true, true, false, false},
-                {true, true, true, true, true, true, true, true, false, false},
-                {false, false, false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false}
+                {false, false, true, true, true, true, true, true, true, true},
+                {false, false, false, true, true, true, true, true, true, true},
+                {false, false, false, false, false, false, false, false, false, true},
+                {false, false, false, false, false, false, false, false, false, true},
+                {true, true, true, true, true, true, true, false, false, true},
+                {true, true, true, true, true, true, true, false, false, true},
+                {false, false, false, false, false, false, false, false, false, true},
+                {false, false, false, false, false, false, false, false, false, true},
+                {false, false, false, true, true, true, true, true, true, true},
+                {false, false, true, true, true, true, true, true, true, true}
         };
         return new Level(LEVEL_WIDTH, LEVEL_HEIGHT, CELL_SIZE, new Vector2(8, 8), new Vector2(152, 8), collisionMask);
     }
