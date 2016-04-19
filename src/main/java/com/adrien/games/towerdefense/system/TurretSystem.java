@@ -52,7 +52,7 @@ public class TurretSystem extends IteratingSystem {
                             shoot.getDamage(),
                             BULLET_HEALTH,
                             tracker.getEntity()));
-                    shoot.setSinceLastShot(shoot.getSinceLastShot() - shoot.getRate());
+                    shoot.setSinceLastShot(0);
                 }
             }
         }

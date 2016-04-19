@@ -17,7 +17,7 @@ public class SpawnSystem extends IteratingSystem {
 
     private static final float MINION_SIZE = 12;
     private static final float MINION_SPEED = 50;
-    private static final int MINION_HEALTH = 10;
+    private static final int MINION_HEALTH = 1;
 
     private final ComponentMapper<Position> positionMapper = ComponentMapper.getFor(Position.class);
     private final ComponentMapper<Spawner> spawnerMapper = ComponentMapper.getFor(Spawner.class);
@@ -45,7 +45,7 @@ public class SpawnSystem extends IteratingSystem {
                     level.getPath(position.getPosition(), level.getObjective()),
                     MINION_HEALTH
             ));
-            spawner.setSinceLastSpawn(spawner.getSinceLastSpawn() - spawner.getRate());
+            spawner.setSinceLastSpawn(0);
 
         }
 
