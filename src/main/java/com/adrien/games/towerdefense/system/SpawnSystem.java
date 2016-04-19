@@ -17,7 +17,7 @@ public class SpawnSystem extends IteratingSystem {
 
     private static final float MINION_SIZE = 12;
     private static final float MINION_SPEED = 50;
-    private static final int MINION_HEALTH = 6;
+    private static final int MINION_HEALTH = 4;
 
     private final ComponentMapper<Position> positionMapper = ComponentMapper.getFor(Position.class);
     private final ComponentMapper<Spawner> spawnerMapper = ComponentMapper.getFor(Spawner.class);

@@ -14,6 +14,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
  */
 public class PlayerSystem extends EntitySystem {
 
+    private static final int TURRET_COST = 50;
     private static final float TURRET_RATE = 0.8f;
     private static final float TURRET_RANGE = 60;
     private static final float TURRET_SIZE = 12;
@@ -50,7 +51,7 @@ public class PlayerSystem extends EntitySystem {
     }
 
     private void placeTower() {
-        if(input != null && input.wasBtnPressed(Input.BTN_LEFT)) {
+        if(input != null && input.wasBtnPressed(Input.BTN_LEFT) && player.getMoney() >= TURRET_COST) {
             Vector2 mousePosition = new Vector2(input.getMouseX(), input.getMouseY());
             if (!level.isAccessible(mousePosition)) {
                 getEngine().addEntity(EntityFactory.createTurret(
@@ -59,6 +60,7 @@ public class PlayerSystem extends EntitySystem {
                         TURRET_RANGE,
                         TURRET_RATE,
                         TURRET_DAMAGE));
+                player.removeMoney(TURRET_COST);
             }
         }
     }
