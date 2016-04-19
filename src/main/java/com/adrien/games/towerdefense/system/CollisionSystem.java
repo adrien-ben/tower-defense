@@ -36,21 +36,21 @@ public class CollisionSystem extends EntitySystem {
                 Collision collision1 = collisionMapper.get(entity1);
                 Collision collision2 = collisionMapper.get(entity2);
 
-                if(entity1 != entity2 && collision1.getGroup() != collision2.getGroup()) {
+                if(entity1 != entity2 && collision1.group != collision2.group) {
 
                     Position position1 = positionMapper.get(entity1);
                     Body body1 = bodyMapper.get(entity1);
                     Position position2 = positionMapper.get(entity2);
                     Body body2 = bodyMapper.get(entity2);
 
-                    float distance = new Vector2(position1.getPosition().getX() - position2.getPosition().getX(),
-                            position1.getPosition().getY() - position2.getPosition().getY()).getLength();
+                    float distance = new Vector2(position1.position.getX() - position2.position.getX(),
+                            position1.position.getY() - position2.position.getY()).getLength();
 
-                    if(distance <= body1.getSize()/2 + body2.getSize()/2) {
-                        if(collision1.getGroup() == EntityFactory.BULLET_GROUP && collision2.getGroup() == EntityFactory.MINION_GROUP) {
+                    if(distance <= body1.size/2 + body2.size/2) {
+                        if(collision1.group == EntityFactory.BULLET_GROUP && collision2.group == EntityFactory.MINION_GROUP) {
                             hit(entity1, entity2);
                             getEngine().removeEntity(entity1);
-                        } else if(collision1.getGroup() == EntityFactory.MINION_GROUP && collision2.getGroup() == EntityFactory.BULLET_GROUP) {
+                        } else if(collision1.group == EntityFactory.MINION_GROUP && collision2.group == EntityFactory.BULLET_GROUP) {
                             hit(entity2, entity1);
                             getEngine().removeEntity(entity2);
                         }
@@ -66,7 +66,7 @@ public class CollisionSystem extends EntitySystem {
         Damage damage = damageMapper.get(source);
         Health health = healthMapper.get(target);
         if(health != null && damage != null) {
-            health.setAmount(health.getAmount() - damage.getAmount());
+            health.amount -= damage.amount;
         }
     }
 }

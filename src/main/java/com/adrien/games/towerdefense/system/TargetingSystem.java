@@ -36,30 +36,30 @@ public class TargetingSystem extends EntitySystem implements EntityListener {
             Position trackerPosition = positionMapper.get(tracker);
             Tracker trackerComponent = trackerMapper.get(tracker);
 
-            if(removedTargets.contains(trackerComponent.getEntity())) {
-                trackerComponent.setEntity(null);
+            if(removedTargets.contains(trackerComponent.entity)) {
+                trackerComponent.entity = null;
             }
 
-            if(trackerComponent.getEntity() != null && trackerComponent.getRange() > 0) {
-                Position currentTargetPosition = positionMapper.get(trackerComponent.getEntity());
+            if(trackerComponent.entity != null && trackerComponent.range > 0) {
+                Position currentTargetPosition = positionMapper.get(trackerComponent.entity);
                 if(currentTargetPosition != null) {
                     float distance = new Vector2(
-                            currentTargetPosition.getPosition().getX() - trackerPosition.getPosition().getX(),
-                            currentTargetPosition.getPosition().getY() - trackerPosition.getPosition().getY()).getLength();
-                    if(distance > trackerComponent.getRange()) {
-                        trackerComponent.setEntity(null);
+                            currentTargetPosition.position.getX() - trackerPosition.position.getX(),
+                            currentTargetPosition.position.getY() - trackerPosition.position.getY()).getLength();
+                    if(distance > trackerComponent.range) {
+                        trackerComponent.entity = null;
                     }
                 }
             }
 
-            if(trackerComponent.getEntity() == null) {
+            if(trackerComponent.entity == null) {
                 for(Entity target : targets) {
                     Position targetPosition = positionMapper.get(target);
                     float distance = new Vector2(
-                            targetPosition.getPosition().getX() - trackerPosition.getPosition().getX(),
-                            targetPosition.getPosition().getY() - trackerPosition.getPosition().getY()).getLength();
-                    if(distance <= trackerComponent.getRange()) {
-                        trackerComponent.setEntity(target);
+                            targetPosition.position.getX() - trackerPosition.position.getX(),
+                            targetPosition.position.getY() - trackerPosition.position.getY()).getLength();
+                    if(distance <= trackerComponent.range) {
+                        trackerComponent.entity = target;
                     }
 
                 }

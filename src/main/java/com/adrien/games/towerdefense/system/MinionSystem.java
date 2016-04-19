@@ -27,24 +27,24 @@ public class MinionSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float time) {
         Path path = pathMapper.get(entity);
         Velocity velocity = velocityMapper.get(entity);
-        int nextNodeIndex = path.getNext();
+        int nextNodeIndex = path.next;
 
-        if(nextNodeIndex < path.getPositions().size()) {
+        if(nextNodeIndex < path.positions.size()) {
             Position position = positionMapper.get(entity);
 
-            Vector2 nextNode = path.getPositions().get(nextNodeIndex);
-            Vector2 direction = new Vector2(nextNode.getX() - position.getPosition().getX(),
-                    nextNode.getY() - position.getPosition().getY());
-            Vector2 velocityVector = getVelocityVector(direction, time, velocity.getSpeed());
+            Vector2 nextNode = path.positions.get(nextNodeIndex);
+            Vector2 direction = new Vector2(nextNode.getX() - position.position.getX(),
+                    nextNode.getY() - position.position.getY());
+            Vector2 velocityVector = getVelocityVector(direction, time, velocity.speed);
             if(direction.getLength() <= velocityVector.getLength()) {
-                velocity.setDirection(direction);
-                path.setNext(nextNodeIndex + 1);
+                velocity.direction  = direction;
+                path.next = nextNodeIndex + 1;
             } else {
-                velocity.setDirection(velocityVector);
+                velocity.direction = velocityVector;
             }
         } else {
-            velocity.getDirection().setX(0);
-            velocity.getDirection().setY(0);
+            velocity.direction.setX(0);
+            velocity.direction.setY(0);
         }
     }
 

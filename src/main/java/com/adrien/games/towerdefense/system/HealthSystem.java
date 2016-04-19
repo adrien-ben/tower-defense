@@ -23,7 +23,7 @@ public class HealthSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float time) {
         Health health = healthMapper.get(entity);
-        if(health.getAmount() <= 0) {
+        if(health.amount <= 0) {
             getEngine().removeEntity(entity);
             getEngine().addEntity(EntityFactory.createLoot(MONEY_DROPPED));
         }

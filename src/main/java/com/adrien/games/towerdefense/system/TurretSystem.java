@@ -33,26 +33,26 @@ public class TurretSystem extends IteratingSystem {
         Tracker tracker = trackerMapper.get(entity);
         Shoot shoot = shootMapper.get(entity);
 
-        shoot.setSinceLastShot(shoot.getSinceLastShot() + time);
+        shoot.sinceLastShot += time;
 
-        if(tracker.getEntity() != null && shoot.getSinceLastShot() >= shoot.getRate()) {
+        if(tracker.entity != null && shoot.sinceLastShot >= shoot.rate) {
 
-            Position targetPosition = positionMapper.get(tracker.getEntity());
+            Position targetPosition = positionMapper.get(tracker.entity);
             if(targetPosition != null) {
 
-                float distance = new Vector2(targetPosition.getPosition().getX() - position.getPosition().getX(),
-                        targetPosition.getPosition().getY() - position.getPosition().getY()
+                float distance = new Vector2(targetPosition.position.getX() - position.position.getX(),
+                        targetPosition.position.getY() - position.position.getY()
                 ).getLength();
 
-                if(distance <= shoot.getRange()) {
+                if(distance <= shoot.range) {
                     getEngine().addEntity(EntityFactory.createBullet(
-                            new Vector2(position.getPosition()),
+                            new Vector2(position.position),
                             BULLET_SIZE,
                             BULLET_SPEED,
-                            shoot.getDamage(),
+                            shoot.damage,
                             BULLET_HEALTH,
-                            tracker.getEntity()));
-                    shoot.setSinceLastShot(0);
+                            tracker.entity));
+                    shoot.sinceLastShot = 0;
                 }
             }
         }

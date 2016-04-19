@@ -45,7 +45,7 @@ public class PlayerSystem extends EntitySystem {
 
     private void collectLoot() {
         for(Entity loot : loots) {
-            player.addMoney(lootMapper.get(loot).getMoney());
+            player.addMoney(lootMapper.get(loot).money);
             getEngine().removeEntity(loot);
         }
     }

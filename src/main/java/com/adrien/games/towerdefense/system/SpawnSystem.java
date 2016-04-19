@@ -34,20 +34,18 @@ public class SpawnSystem extends IteratingSystem {
         Position position = positionMapper.get(entity);
         Spawner spawner = spawnerMapper.get(entity);
 
-        spawner.setSinceLastSpawn(spawner.getSinceLastSpawn() + time);
+        spawner.sinceLastSpawn += time;
 
-        if(spawner.getSinceLastSpawn() >= spawner.getRate()) {
+        if(spawner.sinceLastSpawn >= spawner.rate) {
 
             getEngine().addEntity(EntityFactory.createMinion(
-                    new Vector2(position.getPosition()),
+                    new Vector2(position.position),
                     MINION_SIZE,
                     MINION_SPEED,
-                    level.getPath(position.getPosition(), level.getObjective()),
+                    level.getPath(position.position, level.getObjective()),
                     MINION_HEALTH
             ));
-            spawner.setSinceLastSpawn(0);
-
+            spawner.sinceLastSpawn = 0;
         }
-
     }
 }

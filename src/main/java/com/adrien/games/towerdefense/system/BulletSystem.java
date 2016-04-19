@@ -28,14 +28,14 @@ public class BulletSystem extends IteratingSystem {
         Velocity velocity = velocityMapper.get(entity);
         Tracker tracker = trackerMapper.get(entity);
 
-        if(tracker.getEntity() != null) {
-            Position trackerPosition = positionMapper.get(tracker.getEntity());
+        if(tracker.entity != null) {
+            Position trackerPosition = positionMapper.get(tracker.entity);
             if(trackerPosition != null) {
-                Vector2 direction = new Vector2(trackerPosition.getPosition().getX() - position.getPosition().getX(),
-                        trackerPosition.getPosition().getY() - position.getPosition().getY());
+                Vector2 direction = new Vector2(trackerPosition.position.getX() - position.position.getX(),
+                        trackerPosition.position.getY() - position.position.getY());
                 direction.normalize();
-                direction.scale(time*velocity.getSpeed());
-                velocity.setDirection(direction);
+                direction.scale(time*velocity.speed);
+                velocity.direction = direction;
             }
         } else {
             getEngine().removeEntity(entity);
