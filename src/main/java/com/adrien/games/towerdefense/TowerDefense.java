@@ -39,13 +39,20 @@ public class TowerDefense extends GameApplication {
                 new Vector2(level.getMinionSpawn()),
                 16,
                 2);
-        Entity turret = EntityFactory.createTurret(
+        Entity turret1 = EntityFactory.createTurret(
                 new Vector2(80, 50),
                 12,
                 60,
                 0.6f,
                 1);
-        engine.addEntity(turret);
+        Entity turret2 = EntityFactory.createTurret(
+                new Vector2(80, 100),
+                12,
+                60,
+                0.6f,
+                1);
+        engine.addEntity(turret1);
+        engine.addEntity(turret2);
         engine.addEntity(spawner);
         engine.addSystem(new MinionSystem());
         engine.addSystem(new BulletSystem());

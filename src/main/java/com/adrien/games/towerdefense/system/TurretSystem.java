@@ -17,7 +17,7 @@ public class TurretSystem extends IteratingSystem {
 
     private static final float BULLET_SPEED = 200;
     private static final int BULLET_HEALTH = 1;
-    private static final float BULLET_SIZE = 20;
+    private static final float BULLET_SIZE = 10;
 
     private final ComponentMapper<Position> positionMapper = ComponentMapper.getFor(Position.class);
     private final ComponentMapper<Tracker> trackerMapper = ComponentMapper.getFor(Tracker.class);
