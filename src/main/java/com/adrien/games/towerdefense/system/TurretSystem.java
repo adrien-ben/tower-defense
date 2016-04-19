@@ -15,7 +15,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
  */
 public class TurretSystem extends IteratingSystem {
 
-    private static final float BULLET_SPEED = 200;
+    private static final float BULLET_SPEED = 100;
     private static final int BULLET_HEALTH = 1;
     private static final float BULLET_SIZE = 10;
 

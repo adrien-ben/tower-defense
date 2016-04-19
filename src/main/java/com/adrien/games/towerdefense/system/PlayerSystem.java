@@ -15,8 +15,8 @@ import com.badlogic.ashley.utils.ImmutableArray;
 public class PlayerSystem extends EntitySystem {
 
     private static final int TURRET_COST = 50;
-    private static final float TURRET_RATE = 0.8f;
-    private static final float TURRET_RANGE = 60;
+    private static final float TURRET_RATE = 1;
+    private static final float TURRET_RANGE = 30;
     private static final float TURRET_SIZE = 12;
     private static final int TURRET_DAMAGE = 1;
 
