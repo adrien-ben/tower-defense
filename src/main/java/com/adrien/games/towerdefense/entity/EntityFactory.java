@@ -68,4 +68,9 @@ public class EntityFactory {
                 new Render(Color.GRAY, true));
     }
 
+    public static Entity createLoot(int money) {
+        return create(
+                new Loot(money));
+    }
+
 }

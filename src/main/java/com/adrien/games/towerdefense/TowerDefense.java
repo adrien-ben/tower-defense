@@ -74,9 +74,15 @@ public class TowerDefense extends GameApplication {
         renderLevel(graphics2D);
         renderSystem.setGraphics2D(graphics2D);
         renderSystem.update(0);
+        renderUI(graphics2D);
         if(DEBUG) {
             renderDebug(graphics2D);
         }
+    }
+
+    private void renderUI(Graphics2D graphics2D) {
+        graphics2D.setColor(Color.ORANGE);
+        graphics2D.drawString("" + player.getMoney(), 10, 10);
     }
 
     private void renderLevel(Graphics2D graphics2D) {
