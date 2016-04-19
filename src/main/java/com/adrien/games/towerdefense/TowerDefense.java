@@ -109,7 +109,7 @@ public class TowerDefense extends GameApplication {
 
     private void renderDebug(Graphics2D graphics2D) {
         graphics2D.setColor(Color.GREEN);
-        graphics2D.drawString("ft: " + this.lastFrameTime, 10, SCREEN_HEIGHT - 10);
+        graphics2D.drawString("ft: " + this.lastFrameTime + "ms", 10, SCREEN_HEIGHT - 10);
         graphics2D.drawString("entities: " + this.engine.getEntities().size(), 10, SCREEN_HEIGHT - 30);
 
     }
