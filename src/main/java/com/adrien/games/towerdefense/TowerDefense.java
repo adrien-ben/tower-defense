@@ -8,9 +8,9 @@ import com.adrien.games.math.Vector2;
 import com.adrien.games.towerdefense.entity.EntityFactory;
 import com.adrien.games.towerdefense.level.Level;
 import com.adrien.games.towerdefense.level.LevelFactory;
+import com.adrien.games.towerdefense.player.Player;
 import com.adrien.games.towerdefense.system.*;
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
 
 import java.awt.*;
 
@@ -25,17 +25,15 @@ public class TowerDefense extends GameApplication {
     private static final int SCREEN_HEIGHT = 600;
     private static final boolean DEBUG = true;
     private static final int PIXELS_PER_UNIT = 1;
-    private static final float TURRET_RATE = 0.8f;
-    private static final float TURRET_RANGE = 60;
-    private static final float TURRET_SIZE = 12;
-    private static final int TURRET_DAMAGE = 1;
     private static final float SPAWNER_RATE = 2;
     private static final float SPAWNER_SIZE = 12;
 
     private float lastFrameTime = 0;
 
     private Level level = LevelFactory.createTestLevel();
+    private Player player = new Player();
     private Engine engine = new Engine();
+    private PlayerSystem playerSystem = new PlayerSystem(player, level);
     private RenderSystem renderSystem = new RenderSystem();
 
     @Override
@@ -44,11 +42,11 @@ public class TowerDefense extends GameApplication {
         gameSettings.setWidth(SCREEN_WIDTH);
         gameSettings.setHeight(SCREEN_HEIGHT);
 
-        Entity spawner = EntityFactory.createSpawner(
+        engine.addEntity(EntityFactory.createSpawner(
                 new Vector2(level.getMinionSpawn()),
                 SPAWNER_SIZE,
-                SPAWNER_RATE);
-        engine.addEntity(spawner);
+                SPAWNER_RATE));
+        engine.addSystem(playerSystem);
         engine.addSystem(new MinionSystem());
         engine.addSystem(new BulletSystem());
         engine.addSystem(new MovementSystem());
@@ -62,17 +60,7 @@ public class TowerDefense extends GameApplication {
 
     @Override
     protected void handleInput(Input input) {
-        if(input.wasBtnPressed(Input.BTN_LEFT)) {
-            Vector2 mousePosition = new Vector2(input.getMouseX(), input.getMouseY());
-            if(!level.isAccessible(mousePosition)) {
-                engine.addEntity(EntityFactory.createTurret(
-                        mousePosition,
-                        TURRET_SIZE,
-                        TURRET_RANGE,
-                        TURRET_RATE,
-                        TURRET_DAMAGE));
-            }
-        }
+        playerSystem.setInput(input);
     }
 
     @Override
