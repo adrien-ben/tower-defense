@@ -23,6 +23,7 @@ public class TowerDefense extends GameApplication {
     private static final String VERSION = "v0.1";
     private static final int SCREEN_WIDTH = 800;
     private static final int SCREEN_HEIGHT = 600;
+    private static final boolean DEBUG = true;
     private static final int PIXELS_PER_UNIT = 1;
     private static final float TURRET_RATE = 0.8f;
     private static final float TURRET_RANGE = 60;
@@ -30,6 +31,8 @@ public class TowerDefense extends GameApplication {
     private static final int TURRET_DAMAGE = 1;
     private static final float SPAWNER_RATE = 2;
     private static final float SPAWNER_SIZE = 12;
+
+    private float lastFrameTime = 0;
 
     private Level level = LevelFactory.createTestLevel();
     private Engine engine = new Engine();
@@ -45,20 +48,6 @@ public class TowerDefense extends GameApplication {
                 new Vector2(level.getMinionSpawn()),
                 SPAWNER_SIZE,
                 SPAWNER_RATE);
-        Entity turret1 = EntityFactory.createTurret(
-                new Vector2(80, 50),
-                TURRET_SIZE,
-                TURRET_RANGE,
-                TURRET_RATE,
-                TURRET_DAMAGE);
-        Entity turret2 = EntityFactory.createTurret(
-                new Vector2(80, 100),
-                TURRET_SIZE,
-                TURRET_RANGE,
-                TURRET_RATE,
-                TURRET_DAMAGE);
-        engine.addEntity(turret1);
-        engine.addEntity(turret2);
         engine.addEntity(spawner);
         engine.addSystem(new MinionSystem());
         engine.addSystem(new BulletSystem());
@@ -73,10 +62,22 @@ public class TowerDefense extends GameApplication {
 
     @Override
     protected void handleInput(Input input) {
+        if(input.wasBtnPressed(Input.BTN_LEFT)) {
+            Vector2 mousePosition = new Vector2(input.getMouseX(), input.getMouseY());
+            if(!level.isAccessible(mousePosition)) {
+                engine.addEntity(EntityFactory.createTurret(
+                        mousePosition,
+                        TURRET_SIZE,
+                        TURRET_RANGE,
+                        TURRET_RATE,
+                        TURRET_DAMAGE));
+            }
+        }
     }
 
     @Override
     protected void update(Timer timer) {
+        this.lastFrameTime = timer.gelElapsedTime();
         engine.update((float) timer.gelElapsedTime() / Timer.MS_PER_SECOND);
     }
 
@@ -85,6 +86,9 @@ public class TowerDefense extends GameApplication {
         renderLevel(graphics2D);
         renderSystem.setGraphics2D(graphics2D);
         renderSystem.update(0);
+        if(DEBUG) {
+            renderDebug(graphics2D);
+        }
     }
 
     private void renderLevel(Graphics2D graphics2D) {
@@ -101,6 +105,13 @@ public class TowerDefense extends GameApplication {
                 }
             }
         }
+    }
+
+    private void renderDebug(Graphics2D graphics2D) {
+        graphics2D.setColor(Color.GREEN);
+        graphics2D.drawString("ft: " + this.lastFrameTime, 10, SCREEN_HEIGHT - 10);
+        graphics2D.drawString("entities: " + this.engine.getEntities().size(), 10, SCREEN_HEIGHT - 30);
+
     }
 
     @Override
