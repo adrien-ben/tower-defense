@@ -27,10 +27,6 @@ public class EntityFactory {
         return entity;
     }
 
-    public static Entity createPlayer() {
-        return create(new Input(false, new Vector2()));
-    }
-
     public static Entity createTurret(Vector2 position, float size, float range, float rate, int damage) {
         return create(
                 new Position(position),
