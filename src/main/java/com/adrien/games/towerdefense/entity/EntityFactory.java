@@ -16,6 +16,9 @@ public class EntityFactory {
     public static final int BULLET_GROUP = 0;
     public static final int MINION_GROUP = 1;
 
+    private EntityFactory(){
+    }
+
     public static Entity create(Component... components) {
         Entity entity = new Entity();
         for(Component component : components) {
