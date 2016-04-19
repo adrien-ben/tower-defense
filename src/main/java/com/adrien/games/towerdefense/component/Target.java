@@ -1,6 +1,4 @@
-package com.adrien.games.towerdefense.component;**
- * Created by abennadji on 19/04/16.
- */
+package com.adrien.games.towerdefense.component;
 
 import com.badlogic.ashley.core.Component;
 
