@@ -39,8 +39,13 @@ public class RenderSystem extends EntitySystem {
                 Render render = renderMapper.get(entity);
                 int size = (int)body.getSize();
                 graphics2D.setColor(render.getColor());
-                graphics2D.drawOval((int)position.getPosition().getX() - size/2,
-                        (int)position.getPosition().getY() - size/2, size, size);
+                if(render.isFilled()) {
+                    graphics2D.fillOval((int)position.getPosition().getX() - size/2,
+                            (int)position.getPosition().getY() - size/2, size, size);
+                } else {
+                    graphics2D.drawOval((int)position.getPosition().getX() - size/2,
+                            (int)position.getPosition().getY() - size/2, size, size);
+                }
             }
         }
     }

@@ -34,7 +34,7 @@ public class EntityFactory {
                 new Body(size),
                 new Tracker(range, null),
                 new Shoot(rate, damage, range),
-                new Render(Color.BLUE));
+                new Render(Color.BLUE, false));
     }
 
     public static Entity createBullet(Vector2 position, float size, float speed, int damage, int health, Entity target) {
@@ -46,7 +46,7 @@ public class EntityFactory {
                 new Health(health),
                 new Damage(damage),
                 new Tracker(0, target),
-                new Render(Color.RED));
+                new Render(Color.RED, true));
     }
 
     public static Entity createMinion(Vector2 position, float size, float speed, List<Vector2> path, int health) {
@@ -58,7 +58,7 @@ public class EntityFactory {
                 new Collision(MINION_GROUP),
                 new Health(health),
                 new Target(),
-                new Render(Color.YELLOW));
+                new Render(Color.YELLOW, false));
     }
 
     public static Entity createSpawner(Vector2 position, float size, float rate) {
@@ -66,7 +66,7 @@ public class EntityFactory {
                 new Position(position),
                 new Body(size),
                 new Spawner(rate),
-                new Render(Color.GRAY));
+                new Render(Color.GRAY, true));
     }
 
 }
