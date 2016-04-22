@@ -2,7 +2,6 @@ package com.adrien.games.towerdefense;
 
 import com.adrien.games.application.GameApplication;
 import com.adrien.games.application.GameSettings;
-import com.adrien.games.application.Input;
 import com.adrien.games.application.Timer;
 import com.adrien.games.math.Vector2;
 import com.adrien.games.towerdefense.entity.EntityFactory;
@@ -33,7 +32,7 @@ public class TowerDefense extends GameApplication {
     private Level level = LevelFactory.createTestLevel();
     private Player player = new Player();
     private Engine engine = new Engine();
-    private PlayerSystem playerSystem = new PlayerSystem(player, level);
+    private PlayerSystem playerSystem = new PlayerSystem(player, level, input);
     private RenderSystem renderSystem = new RenderSystem();
 
     @Override
@@ -59,14 +58,9 @@ public class TowerDefense extends GameApplication {
     }
 
     @Override
-    protected void handleInput(Input input) {
-        playerSystem.setInput(input);
-    }
-
-    @Override
-    protected void update(Timer timer) {
-        this.lastFrameTime = timer.gelElapsedTime();
-        engine.update((float) timer.gelElapsedTime() / Timer.MS_PER_SECOND);
+    protected void update() {
+        this.lastFrameTime = timer.lastFrameTime();
+        engine.update((float) timer.lastFrameTime() / Timer.MS_PER_SECOND);
     }
 
     @Override

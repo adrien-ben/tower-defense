@@ -27,9 +27,10 @@ public class PlayerSystem extends EntitySystem {
     private Level level;
     private Input input;
 
-    public PlayerSystem(Player player, Level level) {
+    public PlayerSystem(Player player, Level level, Input input) {
         this.player = player;
         this.level = level;
+        this.input = input;
     }
 
     @Override
@@ -65,7 +66,4 @@ public class PlayerSystem extends EntitySystem {
         }
     }
 
-    public void setInput(Input input) {
-        this.input = input;
-    }
 }
