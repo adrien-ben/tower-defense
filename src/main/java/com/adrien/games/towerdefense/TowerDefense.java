@@ -22,12 +22,9 @@ public class TowerDefense extends GameApplication {
     private static final String VERSION = "v0.1";
     private static final int SCREEN_WIDTH = 800;
     private static final int SCREEN_HEIGHT = 600;
-    private static final boolean DEBUG = true;
     private static final int PIXELS_PER_UNIT = 1;
     private static final float SPAWNER_RATE = 2;
     private static final float SPAWNER_SIZE = 12;
-
-    private float lastFrameTime = 0;
 
     private Level level = LevelFactory.createTestLevel();
     private Player player = new Player();
@@ -40,6 +37,7 @@ public class TowerDefense extends GameApplication {
         gameSettings.setName(NAME + " " + VERSION);
         gameSettings.setWidth(SCREEN_WIDTH);
         gameSettings.setHeight(SCREEN_HEIGHT);
+        gameSettings.setDebug(true);
 
         engine.addEntity(EntityFactory.createSpawner(
                 new Vector2(level.getMinionSpawn()),
@@ -59,7 +57,6 @@ public class TowerDefense extends GameApplication {
 
     @Override
     protected void update() {
-        this.lastFrameTime = timer.lastFrameTime();
         engine.update((float) timer.lastFrameTime() / Timer.MS_PER_SECOND);
     }
 
@@ -69,9 +66,6 @@ public class TowerDefense extends GameApplication {
         renderSystem.setGraphics2D(graphics2D);
         renderSystem.update(0);
         renderUI(graphics2D);
-        if(DEBUG) {
-            renderDebug(graphics2D);
-        }
     }
 
     private void renderUI(Graphics2D graphics2D) {
@@ -93,13 +87,6 @@ public class TowerDefense extends GameApplication {
                 }
             }
         }
-    }
-
-    private void renderDebug(Graphics2D graphics2D) {
-        graphics2D.setColor(Color.GREEN);
-        graphics2D.drawString("ft: " + this.lastFrameTime + "ms", 10, SCREEN_HEIGHT - 10);
-        graphics2D.drawString("entities: " + this.engine.getEntities().size(), 10, SCREEN_HEIGHT - 30);
-
     }
 
     @Override
